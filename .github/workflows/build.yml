@@ -1,0 +1,22 @@
+name: build
+
+on: [workflow_dispatch, push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Build
+        run: |
+          cd Autumn
+          dotnet publish -r linux-x64 -c Release --self-contained
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: |
+            build/
